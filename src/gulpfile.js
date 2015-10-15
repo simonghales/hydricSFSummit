@@ -8,6 +8,8 @@ var sass      = require('gulp-sass'),
     inline = require('gulp-inline'),
     inlinesource = require('gulp-inline-source'),
     inlineStyle = require('gulp-inline-style'),
+    inject = require('gulp-inject'),
+    urlAdjuster = require('gulp-css-url-adjuster'),
     livereload = require('gulp-livereload');
 
 gulp.task('watch', ['sass'], function() {
@@ -36,12 +38,40 @@ gulp.task('sass', function() {
         .pipe(livereload());
 });
 
-gulp.task('build', function() {
+gulp.task('moveFiles', function() {
+    gulp.src(['fonts/**/*', 'images/**/*'], {base: "./"})
+        .pipe(gulp.dest('../build'));
+});
+
+gulp.task('html', function() {
+
+    //return gulp.src('/**/*.*')
+    //    // and inject them into the HTML
+    //    .pipe(inject('dev-index.html', {
+    //        addRootSlash: false,  // ensures proper relative paths
+    //        ignorePath: '../' // ensures proper relative paths
+    //    }))
+    //    .pipe(gulp.dest('build'));
+
+
     return gulp.src('dev-index.html')
         .pipe(inline({
+            css: urlAdjuster({
+               replace: ['../', '']
+            }),
             disabledTypes: ['svg', 'img', 'js']
         }))
-        .pipe(gulp.dest('./out'));
+        //.pipe(inject('dev-index.html', {
+        //    addRootSlash: false,  // ensures proper relative paths
+        //    ignorePath: '../' // ensures proper relative paths
+        //}))
+        .pipe(rename('index.html'))
+        .pipe(gulp.dest('../build'));
+});
+
+gulp.task('build', function() {
+    gulp.run('html');
+    gulp.run('moveFiles');
 });
 
 gulp.task('default', ['watch'], function() {
