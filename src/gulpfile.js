@@ -10,6 +10,7 @@ var sass      = require('gulp-sass'),
     inlineStyle = require('gulp-inline-style'),
     inject = require('gulp-inject'),
     urlAdjuster = require('gulp-css-url-adjuster'),
+    compressor = require('gulp-compressor'),
     livereload = require('gulp-livereload');
 
 gulp.task('watch', ['sass'], function() {
@@ -39,7 +40,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('moveFiles', function() {
-    gulp.src(['fonts/**/*', 'images/**/*'], {base: "./"})
+    gulp.src(['images/**/*'], {base: "./"})
         .pipe(gulp.dest('../build'));
 });
 
@@ -56,22 +57,28 @@ gulp.task('html', function() {
 
     return gulp.src('dev-index.html')
         .pipe(inline({
-            css: urlAdjuster({
-               replace: ['../', '']
-            }),
-            disabledTypes: ['svg', 'img', 'js']
+            //css: urlAdjuster({ this works but isnt needed now
+            //   replace: ['../', '']
+            //}),
+            //disabledTypes: ['svg', 'img', 'js']
         }))
         //.pipe(inject('dev-index.html', {
         //    addRootSlash: false,  // ensures proper relative paths
         //    ignorePath: '../' // ensures proper relative paths
         //}))
+        .pipe(compressor({
+            'remove-intertag-spaces': true,
+            'simple-bool-attr': true,
+            'compress-js': true,
+            'compress-css': true
+        }))
         .pipe(rename('index.html'))
         .pipe(gulp.dest('../build'));
 });
 
 gulp.task('build', function() {
     gulp.run('html');
-    gulp.run('moveFiles');
+    //gulp.run('moveFiles');
 });
 
 gulp.task('default', ['watch'], function() {

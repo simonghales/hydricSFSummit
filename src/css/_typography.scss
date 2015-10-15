@@ -1,22 +1,22 @@
 
-@font-face {
-  font-family: 'Muli';
-  src:  url('../fonts/Muli.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Muli';
-  src:  url('../fonts/Muli-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Muli';
-  src:  url('../fonts/Muli-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-}
+//@font-face {
+//  font-family: 'Muli';
+//  src:  url('../fonts/Muli.ttf') format('truetype');
+//  font-weight: normal;
+//  font-style: normal;
+//}
+//@font-face {
+//  font-family: 'Muli';
+//  src:  url('../fonts/Muli-Bold.ttf') format('truetype');
+//  font-weight: bold;
+//  font-style: normal;
+//}
+//@font-face {
+//  font-family: 'Muli';
+//  src:  url('../fonts/Muli-SemiBold.ttf') format('truetype');
+//  font-weight: 600;
+//  font-style: normal;
+//}
 
 %font--heading {
   font-family: "Muli", Arial, sans-serif;
@@ -42,7 +42,7 @@ h6 {
 
 h3 {
   font-size: 20px;
-  font-weight: bold;
+  //font-weight: bold;
 }
 
 h6 {
