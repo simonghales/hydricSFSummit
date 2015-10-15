@@ -5,18 +5,20 @@ var sass      = require('gulp-sass'),
     watch    = require('gulp-watch'),
     minifyCSS = require('gulp-minify-css'),
     rename    = require('gulp-rename'),
+    inline = require('gulp-inline'),
+    inlinesource = require('gulp-inline-source'),
+    inlineStyle = require('gulp-inline-style'),
     livereload = require('gulp-livereload');
 
 gulp.task('watch', ['sass'], function() {
     livereload.listen();
     gulp.run('sass');
     gulp.watch('css/**/*.scss', ['sass']);
-    gulp.watch('index.html', ['htmlUpdate']);
+    gulp.watch('dev-index.html', ['htmlUpdate']);
 });
 
 gulp.task('htmlUpdate', function() {
-    console.log("Update the html dawg");
-    gulp.src('index.html')
+    gulp.src('dev-index.html')
         .pipe(livereload());
 });
 
@@ -32,6 +34,14 @@ gulp.task('sass', function() {
         .pipe(rename('style.min.css'))
         .pipe(gulp.dest('css'))
         .pipe(livereload());
+});
+
+gulp.task('build', function() {
+    return gulp.src('dev-index.html')
+        .pipe(inline({
+            disabledTypes: ['svg', 'img', 'js']
+        }))
+        .pipe(gulp.dest('./out'));
 });
 
 gulp.task('default', ['watch'], function() {
